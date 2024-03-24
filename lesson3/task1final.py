@@ -1,7 +1,7 @@
 import json
 import csv
 import re
-from ics import Calendar
+#from ics import Calendar
 from datetime import datetime, timedelta
 import zoneinfo
 
@@ -28,7 +28,7 @@ inn_person_pattern = re.compile(r'\b\d{12}\b')
 
 
 def task_2():
-    with open("10000_efrsb_messages.json", "r") as f:
+    with open("1000_efrsb_messages.json", "r") as f:
         msgs = json.load(f)
     results = {}
     for i in msgs:
@@ -76,7 +76,8 @@ def main():
     case_number = "А40-183194-2015"
     task_1()
     task_2()
-    result = task_3(case_number)
+
+#result = task_3(case_number)
 
 if __name__ == "__main__":
     main()
