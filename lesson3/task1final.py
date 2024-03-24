@@ -1,7 +1,7 @@
 import json
 import csv
 import re
-#from ics import Calendar
+from ics import Calendar
 from datetime import datetime, timedelta
 import zoneinfo
 
@@ -76,8 +76,7 @@ def main():
     case_number = "А40-183194-2015"
     task_1()
     task_2()
-
-#result = task_3(case_number)
+    result = task_3(case_number)
 
 if __name__ == "__main__":
     main()
