@@ -21,7 +21,7 @@ class ParserCBRF:
         self.end_date = end_date
         self.result = {}
 
-    def tojson(self):
+    def __tojson(self):
         with open('output.json', 'w') as file:
             json.dump(self.result, file, separators=(',\n', ':'))
 
@@ -43,7 +43,7 @@ class ParserCBRF:
 
     def start(self):
         self.__parse()
-        self.tojson()
+        self.__tojson()
 
 
 start_date = datetime.strptime('20.05.2024', "%d.%m.%Y").date()
