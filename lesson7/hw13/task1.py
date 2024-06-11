@@ -10,6 +10,8 @@ from datetime import datetime, date
 import requests
 import bs4
 import json
+from decimal import *
+
 
 CHINA_LINK = 'https://cbr.ru/currency_base/dynamics'
 
@@ -20,6 +22,7 @@ class ParserCBRF:
         self.start_date = start_date
         self.end_date = end_date
         self.result = {}
+        self.soup = None
 
     def __tojson(self):
         with open('output.json', 'w') as file:
@@ -30,19 +33,18 @@ class ParserCBRF:
                   'UniDbQuery.From': self.start_date.strftime("%d.%m.%Y"),
                   'UniDbQuery.To': self.end_date.strftime("%d.%m.%Y")}
         request = requests.get(self.link, params=params)
-        soup = bs4.BeautifulSoup(request.content, 'html.parser')
-        table = soup.find('table', {'class': "data"})
+        self.soup = bs4.BeautifulSoup(request.content, 'html.parser')
+    def __search(self):
+        table = self.soup.find('table', {'class': "data"})
         data = table.find_all('tr')[2:]
         for writing in data:
-            string_text = writing.text  # str
-            string_text = string_text.replace('\n', ' ')  # str
-            string_text = string_text[1:-1]  # str
-            string_text = string_text.split()
             writing_date, quantity, price = writing.text.replace('\n', ' ')[1:-1].split()
-            self.result[writing_date] = float(price.replace(',', '.')) / int(quantity)
+            self.result[writing_date] = float(Decimal(price.replace(',', '.')) / Decimal(quantity))
+            # После вычисления перевели Decimal во float, так как Decimal нельзя записать в json
 
     def start(self):
         self.__parse()
+        self.__search()
         self.__tojson()
 
 
