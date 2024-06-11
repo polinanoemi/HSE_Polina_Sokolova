@@ -34,6 +34,7 @@ class ParserCBRF:
                   'UniDbQuery.To': self.end_date.strftime("%d.%m.%Y")}
         request = requests.get(self.link, params=params)
         self.soup = bs4.BeautifulSoup(request.content, 'html.parser')
+
     def __search(self):
         table = self.soup.find('table', {'class': "data"})
         data = table.find_all('tr')[2:]
